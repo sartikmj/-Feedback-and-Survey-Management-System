@@ -76,6 +76,35 @@ app.post('/submit-feedback' /*name of the api where data will be send */, async 
     }
 })
 
+//route that will hit to show data as graph to admin when authenticated gets true in react
+app.get('/feedback-report', async (req,res)=>{
+    try{
+        const report = await Feedback.aggregate([ //Feedback is name of the model
+            {
+                $group:{
+                    _id:"$teacherName",
+                    averageRating: {$avg:"$rating"},
+                    count:{$sum:1}
+                }
+            },
+            {$sort:{averageRating:-1}} //in descending order
+        ])
+        res.json(report)
+    }catch(err){
+        res.status(500).json({err:'Something went wrong !'})
+    }
+})
+
+//to get all feedback
+app.get('all-feedback', async (req,res)=>{
+    try{
+        const feedbacks = await feedback.find().sort({submittedAt:-1})
+        res.json(feedbacks);
+    }catch(err){
+        res.status(500).json({err:'Something went wrong !'})
+    }
+})
+
 const PORT = 5000;
 app.listen(PORT,()=>{
     console.log(`Server is running on http://localhost:${PORT}`);
