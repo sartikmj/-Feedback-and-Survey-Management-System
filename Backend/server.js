@@ -96,9 +96,9 @@ app.get('/feedback-report', async (req,res)=>{
 })
 
 //to get all feedback
-app.get('all-feedback', async (req,res)=>{
+app.get('/all-feedbacks', async (req,res)=>{
     try{
-        const feedbacks = await feedback.find().sort({submittedAt:-1})
+        const feedbacks = await Feedback.find().sort({date:-1})
         res.json(feedbacks);
     }catch(err){
         res.status(500).json({err:'Something went wrong !'})
