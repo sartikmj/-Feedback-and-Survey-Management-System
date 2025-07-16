@@ -64,7 +64,7 @@ app.post('/submit-feedback' /*name of the api where data will be send */, async 
     try{
         const data = req.body; //get the data from the request body
 
-        if(!data.studentName || studentName.trim()===''){
+        if(!data.studentName || data.studentName.trim()===''){
             data.studentName = "Anonymous"; //if student name is not provided, "Anonymouse" will be set to the database
         }
 
